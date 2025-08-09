@@ -1,0 +1,13 @@
+{% extends "estrutura.html" %}
+
+{% block content %}
+    <h2>Gerenciar Categorias</h2>
+    {% include 'menu.html' %}
+
+    <p>Aqui você pode adicionar, editar ou remover categorias.</p>
+    <form action="#" method="post">
+        <label for="nome_categoria">Nome da Categoria:</label><br>
+        <input type="text" id="nome_categoria" name="nome_categoria"><br><br>
+        <input type="submit" value="Salvar Categoria">
+    </form>
+{% endblock %}
