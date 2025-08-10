@@ -1,0 +1,33 @@
+<nav>
+    <ul>
+        <li><a href="{{ url_for('index') }}">Página Inicial</a></li>
+        <li>
+            <a href="#">Cadastros</a>
+            <ul>
+                <li><a href="{{ url_for('cadastro_usuario') }}">Usuário</a></li>
+                <li><a href="{{ url_for('cadastro_anuncio') }}">Anúncios</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Anúncios</a>
+            <ul>
+                <li><a href="{{ url_for('anuncio_pergunta') }}">Pergunta</a></li>
+                <li><a href="{{ url_for('anuncio_compra') }}">Compra</a></li>
+                <li><a href="{{ url_for('anuncio_favoritos') }}">Favoritos</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Configurações</a>
+            <ul>
+                <li><a href="{{ url_for('config_categoria') }}">Categoria</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Relatórios</a>
+            <ul>
+                <li><a href="{{ url_for('relatorio_vendas') }}">Vendas</a></li>
+                <li><a href="{{ url_for('relatorio_compras') }}">Compras</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
