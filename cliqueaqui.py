@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, make_response
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template
 
 app = Flask('cliqueaqui')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:ket270@localhost/cliqueaqui'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
 # Rota para a página inicial
 @app.route('/')
