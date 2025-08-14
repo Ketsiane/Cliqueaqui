@@ -1,0 +1,29 @@
+{% extends "estrutura.html" %}
+
+{% block content %}
+    <h2>{{ titulo }}</h2>
+    <form action="{{ url_for('salvar_pergunta', id=pergunta.id) }}" method="post">
+        <label for="pergunta_texto">Texto da Pergunta:</label>
+        <input type="text" id="pergunta_texto" name="pergunta_texto" value="{{ pergunta.pergunta_texto }}" required>
+        <br>
+        <label for="resposta_texto">Texto da Resposta:</label>
+        <input type="text" id="resposta_texto" name="resposta_texto" value="{{ pergunta.resposta_texto }}">
+        <br>
+        <label for="anu_id">Anúncio:</label>
+        <select id="anu_id" name="anu_id" required>
+            {% for anuncio in anuncios %}
+                <option value="{{ anuncio.id }}" {% if anuncio.id == pergunta.anu_id %}selected{% endif %}>{{ anuncio.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="usu_id">Usuário:</label>
+        <select id="usu_id" name="usu_id" required>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}" {% if usuario.id == pergunta.usu_id %}selected{% endif %}>{{ usuario.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Salvar</button>
+    </form>
+    <a href="{{ url_for('lista_pergunta') }}">Cancelar</a>
+{% endblock %}

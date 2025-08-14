@@ -1,7 +1,51 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>Meus Anúncios Favoritos</h2>
-
-    <p>Aqui você pode ver a sua lista de anúncios favoritos.</p>
-    {% endblock %}
+    <h2>{{ titulo }}</h2>
+    
+    <h3>Novo Favorito</h3>
+    <form action="{{ url_for('novo_favorito') }}" method="post">
+        <label for="anu_id">Anúncio:</label>
+        <select id="anu_id" name="anu_id" required>
+            {% for anuncio in anuncios %}
+                <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="usu_id">Usuário:</label>
+        <select id="usu_id" name="usu_id" required>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Adicionar aos Favoritos</button>
+    </form>
+    
+    <h3>Lista de Favoritos</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Anúncio</th>
+                <th>Usuário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for favorito in favoritos %}
+            <tr>
+                <td>{{ favorito.id }}</td>
+                <td>{{ favorito.anu_id }}</td>
+                <td>{{ favorito.usu_id }}</td>
+                <td>
+                    <a href="{{ url_for('excluir_favorito', id=favorito.id) }}">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="{{ url_for('index') }}">Voltar para o Início</a>
+{% endblock %}

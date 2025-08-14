@@ -1,6 +1,62 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>Perguntas sobre Anúncio</h2>
-    <p>Aqui você pode ver e fazer perguntas sobre um anúncio específico.</p>
-    {% endblock %}
+    <h2>{{ titulo }}</h2>
+    
+    <h3>Nova Pergunta</h3>
+    <form action="{{ url_for('nova_pergunta') }}" method="post">
+        <label for="pergunta_texto">Texto da Pergunta:</label>
+        <input type="text" id="pergunta_texto" name="pergunta_texto" required>
+        <br>
+        <label for="resposta_texto">Texto da Resposta:</label>
+        <input type="text" id="resposta_texto" name="resposta_texto">
+        <br>
+        <label for="anu_id">Anúncio:</label>
+        <select id="anu_id" name="anu_id" required>
+            {% for anuncio in anuncios %}
+                <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="usu_id">Usuário:</label>
+        <select id="usu_id" name="usu_id" required>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Cadastrar</button>
+    </form>
+    
+    <h3>Lista de Perguntas</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pergunta</th>
+                <th>Resposta</th>
+                <th>Anúncio</th>
+                <th>Usuário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pergunta in perguntas %}
+            <tr>
+                <td>{{ pergunta.id }}</td>
+                <td>{{ pergunta.pergunta_texto }}</td>
+                <td>{{ pergunta.resposta_texto }}</td>
+                <td>{{ pergunta.anu_id }}</td>
+                <td>{{ pergunta.usu_id }}</td>
+                <td>
+                    <a href="{{ url_for('editar_pergunta', id=pergunta.id) }}">Editar</a> |
+                    <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="{{ url_for('index') }}">Voltar para o Início</a>
+{% endblock %}
