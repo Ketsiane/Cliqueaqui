@@ -40,7 +40,7 @@
                 <td>{{ usuario.endereco }}</td>
                 <td>
                     <a href="{{ url_for('editar_usuario', id=usuario.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_usuario', id=usuario.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_usuario', id=usuario.id) }}" onclick="return confirm('Deseja realmente excluir este usuário?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

@@ -1,6 +1,33 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>Relatório de Compras</h2>    
-    <p>Aqui você pode consultar o seu relatório de compras.</p>
-    {% endblock %}
+    <h2>Relatório de Compras</h2>
+    <p>RELATÓRIO DE COMPRAS EFETUADAS:</p>
+    
+    <table class="table table-bordered table-hover mt-3">
+        <thead>
+            <tr>
+                <th>ID da Compra</th>
+                <th>Anúncio</th>
+                <th>Preço Unitário</th>
+                <th>Quantidade</th>
+                <th>Total da Compra</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra, anuncio, usuario in compras %}
+            <tr>
+                <td>{{ compra.id }}</td>
+                <td>{{ anuncio.nome }}</td>
+                <td>R$ {{ "%.2f"|format(compra.preco) }}</td>
+                <td>{{ compra.quantidade }}</td>
+                <td>R$ {{ "%.2f"|format(compra.total) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Voltar para a Tela Inicial</a>
+
+{% endblock %}

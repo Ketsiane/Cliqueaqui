@@ -50,7 +50,7 @@
                 <td>{{ pergunta.usu_id }}</td>
                 <td>
                     <a href="{{ url_for('editar_pergunta', id=pergunta.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}" onclick="return confirm('Deseja realmente excluir esta pergunta?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

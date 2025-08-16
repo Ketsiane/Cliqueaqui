@@ -9,6 +9,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://cliqueaqui_user:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+@app.errorhandler(404)
+def pagina_nao_encontrada(error):
+    return render_template('pagnaoencontrada.html'), 404
+
 
 class Usuario(db.Model):
     __tablename__ = "usuario"
@@ -101,7 +105,7 @@ def index():
 @app.route('/cadastro/usuario')
 def lista_usuario():
     usuarios = Usuario.query.all()
-    return render_template('usuario.html', usuarios=usuarios, titulo='Usuários')
+    return render_template('cadastro_usuario.html', usuarios=usuarios, titulo='Usuários')
 
 @app.route('/cadastro/novousuario', methods=['POST'])
 def novo_usuario():
@@ -140,7 +144,7 @@ def excluir_usuario(id):
 @app.route('/configuracoes/categoria')
 def lista_categoria():
     categorias = Categoria.query.all()
-    return render_template('categoria.html', categorias=categorias, titulo='Categorias')
+    return render_template('config_categoria.html', categorias=categorias, titulo='Categorias')
 
 @app.route('/configuracoes/novacategoria', methods=['POST'])
 def nova_categoria():
@@ -177,7 +181,7 @@ def lista_anuncio():
     anuncios = Anuncio.query.all()
     categorias = Categoria.query.all()
     usuarios = Usuario.query.all()
-    return render_template('anuncio.html', anuncios=anuncios, categorias=categorias, usuarios=usuarios, titulo='Anúncios')
+    return render_template('cadastro_anuncio.html', anuncios=anuncios, categorias=categorias, usuarios=usuarios, titulo='Anúncios')
 
 @app.route('/anuncios/novoanuncio', methods=['POST'])
 def novo_anuncio():
@@ -224,7 +228,7 @@ def lista_pergunta():
     perguntas = Pergunta.query.all()
     anuncios = Anuncio.query.all()
     usuarios = Usuario.query.all()
-    return render_template('pergunta.html', perguntas=perguntas, anuncios=anuncios, usuarios=usuarios, titulo='Perguntas')
+    return render_template('anuncio_pergunta.html', perguntas=perguntas, anuncios=anuncios, usuarios=usuarios, titulo='Perguntas')
 
 @app.route('/anuncios/novapergunta', methods=['POST'])
 def nova_pergunta():
@@ -267,7 +271,7 @@ def lista_favoritos():
     favoritos = Favorito.query.all()
     anuncios = Anuncio.query.all()
     usuarios = Usuario.query.all()
-    return render_template('favoritos.html', favoritos=favoritos, anuncios=anuncios, usuarios=usuarios, titulo='Favoritos')
+    return render_template('anuncio_favoritos.html', favoritos=favoritos, anuncios=anuncios, usuarios=usuarios, titulo='Favoritos')
 
 @app.route('/anuncios/novofavorito', methods=['POST'])
 def novo_favorito():
@@ -291,7 +295,7 @@ def lista_compra():
     compras = Compra.query.all()
     anuncios = Anuncio.query.all()
     usuarios = Usuario.query.all()
-    return render_template('compra.html', compras=compras, anuncios=anuncios, usuarios=usuarios, titulo='Compras')
+    return render_template('anuncio_compra.html', compras=compras, anuncios=anuncios, usuarios=usuarios, titulo='Compras')
 
 @app.route('/anuncios/novacompra', methods=['POST'])
 def nova_compra():
@@ -333,11 +337,13 @@ def excluir_compra(id):
 # Rotas de Relatórios
 @app.route('/relatorios/vendas')
 def relatorio_vendas():
-    return render_template('relatorio_vendas.html')
+    vendas = db.session.query(Compra, Anuncio, Usuario).join(Anuncio, Compra.anu_id == Anuncio.id).join(Usuario, Compra.usu_id == Usuario.id).all()
+    return render_template('relatorio_vendas.html', vendas=vendas)
 
 @app.route('/relatorios/compras')
 def relatorio_compras():
-    return render_template('relatorio_compras.html')
+    compras = db.session.query(Compra, Anuncio, Usuario).join(Anuncio, Compra.anu_id == Anuncio.id).join(Usuario, Compra.usu_id == Usuario.id).all()
+    return render_template('relatorio_compras.html', compras=compras)
 
 if __name__ == '__main__':
     with app.app_context():

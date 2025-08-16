@@ -32,7 +32,7 @@
                 <td>{{ categoria.desc }}</td>
                 <td>
                     <a href="{{ url_for('editar_categoria', id=categoria.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_categoria', id=categoria.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_categoria', id=categoria.id) }}" onclick="return confirm('Deseja realmente excluir esta categoria?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

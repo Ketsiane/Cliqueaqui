@@ -60,7 +60,7 @@
                 <td>{{ anuncio.usu_id }}</td>
                 <td>
                     <a href="{{ url_for('editar_anuncio', id=anuncio.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_anuncio', id=anuncio.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_anuncio', id=anuncio.id) }}" onclick="return confirm('Deseja realmente excluir este anúncio?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

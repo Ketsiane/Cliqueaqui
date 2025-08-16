@@ -52,7 +52,7 @@
                 <td>{{ compra.usu_id }}</td>
                 <td>
                     <a href="{{ url_for('editar_compra', id=compra.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_compra', id=compra.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_compra', id=compra.id) }}" onclick="return confirm('Deseja realmente excluir esta compra?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

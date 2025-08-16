@@ -39,7 +39,7 @@
                 <td>{{ favorito.anu_id }}</td>
                 <td>{{ favorito.usu_id }}</td>
                 <td>
-                    <a href="{{ url_for('excluir_favorito', id=favorito.id) }}">Excluir</a>
+                    <a href="{{ url_for('excluir_favorito', id=favorito.id) }}" onclick="return confirm('Deseja realmente excluir este favorito?');">Excluir</a>
                 </td>
             </tr>
             {% endfor %}
