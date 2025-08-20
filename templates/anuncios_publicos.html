@@ -1,0 +1,16 @@
+{% extends "estrutura.html" %}
+{% block content %}
+    <h2>Anúncios</h2>
+    <section>
+        <h3>Confira todos os anúncios</h3>
+        {% for anuncio in anuncios %}
+        <div>
+            <h4>{{ anuncio.nome }}</h4>
+            <p>{{ anuncio.desc }}</p>
+            <p>Preço: R$ {{ anuncio.preco }}</p>
+            <p>Quantidade: {{ anuncio.qtd }}</p>
+        </div>
+        <hr>
+        {% endfor %}
+    </section>
+{% endblock %}

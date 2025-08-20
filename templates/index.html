@@ -1,6 +1,22 @@
 {% extends "estrutura.html" %}
-
 {% block content %}
     <h2>Bem-vindo ao E-commerce Clique Aqui</h2>
-    {% include 'menu.html' %}
+    <section>
+        <h3>Acesse sua conta ou cadastre-se</h3>
+        <p><a href="{{ url_for('login') }}">Entrar</a></p>
+        <p><a href="{{ url_for('exibir_cadastro') }}">Cadastre-se</a></p>
+    </section>
+    <hr>
+    <section>
+        <h3>Anúncios em Destaque</h3>
+        {% for anuncio in anuncios %}
+        <div>
+            <h4>{{ anuncio.nome }}</h4>
+            <p>{{ anuncio.desc }}</p>
+            <p>Preço: R$ {{ anuncio.preco }}</p>
+            <p>Quantidade disponível: {{ anuncio.qtd }}</p>
+        </div>
+        <hr>
+        {% endfor %}
+    </section>
 {% endblock %}

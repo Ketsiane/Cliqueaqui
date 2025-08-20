@@ -28,3 +28,10 @@ nav li a {
 nav li a:hover {
     background-color: #ddd;
 }
+
+.menu-section-title {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #333; /* Cor mais escura */
+}

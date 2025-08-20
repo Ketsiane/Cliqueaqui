@@ -1,72 +1,88 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>{{ titulo }}</h2>
+    <h2>Gerenciamento de Anúncios</h2>
+    <p><a href="{{ url_for('menu') }}">Voltar ao Menu</a></p>
     
-    <h3>Novo Anúncio</h3>
+    <h4>Novo Anúncio</h4>
     <form action="{{ url_for('novo_anuncio') }}" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required>
-        <br>
-        <label for="desc">Descrição:</label>
-        <textarea id="desc" name="desc" required></textarea>
-        <br>
-        <label for="qtd">Quantidade:</label>
-        <input type="number" id="qtd" name="qtd" required>
-        <br>
-        <label for="preco">Preço:</label>
-        <input type="number" id="preco" name="preco" step="0.01" required>
-        <br>
-        <label for="cat_id">Categoria:</label>
-        <select id="cat_id" name="cat_id" required>
-            {% for categoria in categorias %}
-                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="usu_id">Usuário:</label>
-        <select id="usu_id" name="usu_id" required>
-            {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Cadastrar</button>
+        <table style="border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td><label for="nome">Nome:</label></td>
+                    <td><input type="text" id="nome" name="nome" required></td>
+                </tr>
+                <tr>
+                    <td><label for="desc">Descrição:</label></td>
+                    <td><textarea id="desc" name="desc" required></textarea></td>
+                </tr>
+                <tr>
+                    <td><label for="qtd">Quantidade:</label></td>
+                    <td><input type="number" id="qtd" name="qtd" required></td>
+                </tr>
+                <tr>
+                    <td><label for="preco">Preço:</label></td>
+                    <td><input type="number" step="0.01" id="preco" name="preco" required></td>
+                </tr>
+                <tr>
+                    <td><label for="cat_id">Categoria:</label></td>
+                    <td>
+                        <select id="cat_id" name="cat_id" required>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="usu_id">Usuário:</label></td>
+                    <td>
+                        <select id="usu_id" name="usu_id" required>
+                            {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Cadastrar Anúncio"></td>
+                </tr>
+            </tbody>
+        </table>
     </form>
-    
-    <h3>Lista de Anúncios</h3>
-    <table border="1">
+
+    <hr>
+
+    <h4>Lista de Anúncios</h4>
+    <table border="1" style="border-collapse: collapse; width: 100%;">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Quantidade</th>
-                <th>Preço</th>
-                <th>Categoria</th>
-                <th>Usuário</th>
-                <th>Ações</th>
+                <th style="border: 1px solid black; padding: 8px;">ID</th>
+                <th style="border: 1px solid black; padding: 8px;">Nome</th>
+                <th style="border: 1px solid black; padding: 8px;">Descrição</th>
+                <th style="border: 1px solid black; padding: 8px;">Quantidade</th>
+                <th style="border: 1px solid black; padding: 8px;">Preço</th>
+                <th style="border: 1px solid black; padding: 8px;">Categoria</th>
+                <th style="border: 1px solid black; padding: 8px;">Usuário</th>
+                <th style="border: 1px solid black; padding: 8px;">Ações</th>
             </tr>
         </thead>
         <tbody>
             {% for anuncio in anuncios %}
             <tr>
-                <td>{{ anuncio.id }}</td>
-                <td>{{ anuncio.nome }}</td>
-                <td>{{ anuncio.desc }}</td>
-                <td>{{ anuncio.qtd }}</td>
-                <td>{{ anuncio.preco }}</td>
-                <td>{{ anuncio.cat_id }}</td>
-                <td>{{ anuncio.usu_id }}</td>
-                <td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.id }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.nome }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.desc }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.qtd }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.preco }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.cat_id }}</td>
+                <td style="border: 1px solid black; padding: 8px;">{{ anuncio.usu_id }}</td>
+                <td style="border: 1px solid black; padding: 8px;">
                     <a href="{{ url_for('editar_anuncio', id=anuncio.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_anuncio', id=anuncio.id) }}" onclick="return confirm('Deseja realmente excluir este anúncio?');">Excluir</a>
+                    <a href="{{ url_for('excluir_anuncio', id=anuncio.id) }}">Excluir</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    
-    <br>
-    <a href="{{ url_for('index') }}">Voltar para o Início</a>
 {% endblock %}
