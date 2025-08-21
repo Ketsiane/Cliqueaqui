@@ -1,62 +1,76 @@
-{% extends "estrutura.html" %}
+{% extends 'estrutura.html' %}
 
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    
-    <h3>Nova Pergunta</h3>
-    <form action="{{ url_for('nova_pergunta') }}" method="post">
-        <label for="pergunta_texto">Texto da Pergunta:</label>
-        <input type="text" id="pergunta_texto" name="pergunta_texto" required>
-        <br>
-        <label for="resposta_texto">Texto da Resposta:</label>
-        <input type="text" id="resposta_texto" name="resposta_texto">
-        <br>
-        <label for="anu_id">Anúncio:</label>
-        <select id="anu_id" name="anu_id" required>
-            {% for anuncio in anuncios %}
-                <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="usu_id">Usuário:</label>
-        <select id="usu_id" name="usu_id" required>
-            {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Cadastrar</button>
-    </form>
-    
-    <h3>Lista de Perguntas</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Pergunta</th>
-                <th>Resposta</th>
-                <th>Anúncio</th>
-                <th>Usuário</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for pergunta in perguntas %}
-            <tr>
-                <td>{{ pergunta.id }}</td>
-                <td>{{ pergunta.pergunta_texto }}</td>
-                <td>{{ pergunta.resposta_texto }}</td>
-                <td>{{ pergunta.anu_id }}</td>
-                <td>{{ pergunta.usu_id }}</td>
-                <td>
-                    <a href="{{ url_for('editar_pergunta', id=pergunta.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}" onclick="return confirm('Deseja realmente excluir esta pergunta?');">Excluir</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <br>
-    <a href="{{ url_for('menu') }}">Voltar para o Início</a>
+    <h2 class="mb-4">Perguntas e Respostas</h2>
+    <a href="{{ url_for('menu') }}" class="btn btn-secondary mb-4">Voltar ao Menu</a>
+
+    <div class="card p-4 shadow mb-5">
+        <h4 class="card-title mb-3">Fazer uma Pergunta</h4>
+        <form action="{{ url_for('nova_pergunta') }}" method="post">
+            <div class="mb-3">
+                <label for="pergunta_texto" class="form-label">Pergunta:</label>
+                <textarea id="pergunta_texto" name="pergunta_texto" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="resposta_texto" class="form-label">Resposta:</label>
+                <textarea id="resposta_texto" name="resposta_texto" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="anu_id" class="form-label">Anúncio:</label>
+                <select id="anu_id" name="anu_id" class="form-select" required>
+                    {% for anuncio in anuncios %}
+                        <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="usu_id" class="form-label">Usuário:</label>
+                <select id="usu_id" name="usu_id" class="form-select" required>
+                    {% for usuario in usuarios %}
+                        <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Pergunta</button>
+        </form>
+    </div>
+
+    <h4 class="mb-3">Lista de Perguntas</h4>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Pergunta</th>
+                    <th>Resposta</th>
+                    <th>Anúncio</th>
+                    <th>Usuário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pergunta in perguntas %}
+                {% for anuncio in anuncios %}
+                    {% if anuncio.id == pergunta.anu_id %}
+                    {% for usuario in usuarios %}
+                        {% if usuario.id == pergunta.usu_id %}
+                            <tr>
+                                <td>{{ pergunta.id }}</td>
+                                <td>{{ pergunta.pergunta_texto }}</td>
+                                <td>{{ pergunta.resposta_texto }}</td>
+                                <td>{{ anuncio.nome }}</td>
+                                <td>{{ usuario.nome }}</td>
+                                <td>
+                                    <a href="{{ url_for('editar_pergunta', id=pergunta.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                                    <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}" onclick="return confirm('Deseja realmente excluir esta pergunta?');" class="btn btn-sm btn-danger">Excluir</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -1,29 +1,38 @@
-{% extends "estrutura.html" %}
-
+{% extends 'estrutura.html' %}
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    <form action="{{ url_for('salvar_pergunta', id=pergunta.id) }}" method="post">
-        <label for="pergunta_texto">Texto da Pergunta:</label>
-        <input type="text" id="pergunta_texto" name="pergunta_texto" value="{{ pergunta.pergunta_texto }}" required>
-        <br>
-        <label for="resposta_texto">Texto da Resposta:</label>
-        <input type="text" id="resposta_texto" name="resposta_texto" value="{{ pergunta.resposta_texto }}">
-        <br>
-        <label for="anu_id">Anúncio:</label>
-        <select id="anu_id" name="anu_id" required>
-            {% for anuncio in anuncios %}
-                <option value="{{ anuncio.id }}" {% if anuncio.id == pergunta.anu_id %}selected{% endif %}>{{ anuncio.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="usu_id">Usuário:</label>
-        <select id="usu_id" name="usu_id" required>
-            {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}" {% if usuario.id == pergunta.usu_id %}selected{% endif %}>{{ usuario.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Salvar</button>
-    </form>
-    <a href="{{ url_for('lista_pergunta') }}">Cancelar</a>
+    <h2 class="mb-4">Editar Pergunta</h2>
+    <a href="{{ url_for('lista_pergunta') }}" class="btn btn-secondary mb-4">Voltar para a Lista</a>
+
+    <div class="card p-4 shadow">
+        <h4 class="card-title mb-3">Editar Pergunta #{{ pergunta.id }}</h4>
+        <form action="{{ url_for('editar_pergunta', id=pergunta.id) }}" method="post">
+            <input type="hidden" name="id" value="{{ pergunta.id }}">
+            <div class="mb-3">
+                <label for="desc" class="form-label">Pergunta:</label>
+                <textarea id="desc" name="desc" class="form-control" required>{{ pergunta.desc }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="resp" class="form-label">Resposta:</label>
+                <textarea id="resp" name="resp" class="form-control">{{ pergunta.resp }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="anu_id" class="form-label">Anúncio:</label>
+                <select id="anu_id" name="anu_id" class="form-select" required>
+                    {% for anuncio in anuncios %}
+                    <option value="{{ anuncio.id }}" {% if anuncio.id == pergunta.anu_id %}selected{% endif %}>{{ anuncio.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="usu_id" class="form-label">Usuário:</label>
+                <select id="usu_id" name="usu_id" class="form-select" required>
+                    {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}" {% if usuario.id == pergunta.usu_id %}selected{% endif %}>{{ usuario.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a href="{{ url_for('excluir_pergunta', id=pergunta.id) }}" onclick="return confirm('Deseja realmente excluir esta pergunta?');" class="btn btn-danger">Excluir Pergunta</a>
+        </form>
+    </div>
 {% endblock %}

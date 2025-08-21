@@ -1,51 +1,52 @@
 {% extends "estrutura.html" %}
-
 {% block content %}
-    <h2>{{ titulo }}</h2>
+    <h2 class="mb-4">Favoritos</h2>
+    <a href="{{ url_for('menu') }}" class="btn btn-secondary mb-4">Voltar para o Menu</a>
     
-    <h3>Novo Favorito</h3>
-    <form action="{{ url_for('novo_favorito') }}" method="post">
-        <label for="anu_id">Anúncio:</label>
-        <select id="anu_id" name="anu_id" required>
-            {% for anuncio in anuncios %}
-                <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="usu_id">Usuário:</label>
-        <select id="usu_id" name="usu_id" required>
-            {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Adicionar aos Favoritos</button>
-    </form>
-    
-    <h3>Lista de Favoritos</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Anúncio</th>
-                <th>Usuário</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for favorito in favoritos %}
-            <tr>
-                <td>{{ favorito.id }}</td>
-                <td>{{ favorito.anu_id }}</td>
-                <td>{{ favorito.usu_id }}</td>
-                <td>
-                    <a href="{{ url_for('excluir_favorito', id=favorito.id) }}" onclick="return confirm('Deseja realmente excluir este favorito?');">Excluir</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <br>
-    <a href="{{ url_for('menu') }}">Voltar para o Início</a>
+    <div class="card p-4 shadow">
+        <h4 class="card-title mb-3">Novo Favorito</h4>
+        <form action="{{ url_for('novo_favorito') }}" method="post">
+            <div class="mb-3">
+                <label for="anu_id" class="form-label">Anúncio:</label>
+                <select id="anu_id" name="anu_id" class="form-select" required>
+                    {% for anuncio in anuncios %}
+                    <option value="{{ anuncio.id }}">{{ anuncio.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="usu_id" class="form-label">Usuário:</label>
+                <select id="usu_id" name="usu_id" class="form-select" required>
+                    {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Adicionar aos Favoritos</button>
+        </form>
+    </div>
+
+    <h4 class="mt-5 mb-3">Lista de Favoritos</h4>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Anúncio</th>
+                    <th>Usuário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for favorito in favoritos %}
+                <tr>
+                    <td>{{ favorito.id }}</td>
+                    <td>{{ favorito.anuncio_favorito.nome }}</td>
+                    <td>{{ favorito.usuario_favorito.nome }}</td>
+                    <td><a href="{{ url_for('excluir_favorito', id=favorito.id) }}" onclick="return confirm('Deseja realmente excluir este favorito?');" class="btn btn-danger btn-sm">Excluir</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

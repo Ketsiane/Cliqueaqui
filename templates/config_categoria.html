@@ -1,44 +1,41 @@
-{% extends "estrutura.html" %}
-
+{% extends 'estrutura.html' %}
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    
-    <h3>Nova Categoria</h3>
-    <form action="{{ url_for('nova_categoria') }}" method="post">
-        <label for="nome">Nome da Categoria:</label>
-        <input type="text" id="nome" name="nome" required>
-        <br>
-        <label for="desc">Descrição:</label>
-        <input type="text" id="desc" name="desc" required>
-        <br>
-        <button type="submit">Cadastrar</button>
-    </form>
-    
-    <h3>Lista de Categorias</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Descrição</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for categoria in categorias %}
-            <tr>
-                <td>{{ categoria.id }}</td>
-                <td>{{ categoria.nome }}</td>
-                <td>{{ categoria.desc }}</td>
-                <td>
-                    <a href="{{ url_for('editar_categoria', id=categoria.id) }}">Editar</a> |
-                    <a href="{{ url_for('excluir_categoria', id=categoria.id) }}" onclick="return confirm('Deseja realmente excluir esta categoria?');">Excluir</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <br>
-    <a href="{{ url_for('menu') }}">Voltar para o Início</a>
+    <h2 class="mb-4">Configuração de Categoria</h2>
+    <a href="{{ url_for('menu') }}" class="btn btn-secondary mb-4">Voltar ao Menu</a>
+
+    <div class="card p-4 shadow mb-5">
+        <h3 class="card-title mb-3">Nova Categoria</h3>
+        <form action="{{ url_for('nova_categoria') }}" method="post">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar Categoria</button>
+        </form>
+    </div>
+
+    <h3 class="mb-3">Lista de Categorias</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nome }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_categoria', id=categoria.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{{ url_for('excluir_categoria', id=categoria.id) }}" onclick="return confirm('Deseja realmente excluir esta categoria?');" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

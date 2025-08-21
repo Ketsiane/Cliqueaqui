@@ -7,6 +7,7 @@ from flask_login import (current_user, LoginManager,
                              login_user, logout_user,
                              login_required)
 import hashlib
+from sqlalchemy.orm import joinedload
 
 app = Flask('cliqueaqui')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://cliqueaqui_user:ket270@localhost:3306/cliqueaqui'
@@ -39,6 +40,11 @@ class Usuario(db.Model):
     senha = db.Column('usu_senha', db.String(256))
     endereco = db.Column('usu_end', db.String(256))
 
+    anuncios = db.relationship('Anuncio', backref='usuario', lazy=True)
+    perguntas = db.relationship('Pergunta', backref='usuario_pergunta', lazy=True)
+    favoritos = db.relationship('Favorito', backref='usuario_favorito', lazy=True)
+    compras = db.relationship('Compra', backref='usuario_compra', lazy=True)
+
     def __init__(self, nome, email, senha, endereco):
         self.nome = nome
         self.email = email
@@ -59,6 +65,7 @@ class Categoria(db.Model):
     id = db.Column('cat_id', db.Integer, primary_key=True)
     nome = db.Column('cat_nome', db.String(256))
     desc = db.Column('cat_desc', db.String(256))
+    anuncios = db.relationship('Anuncio', backref='categoria', lazy=True)
 
     def __init__(self, nome, desc):
         self.nome = nome
@@ -73,6 +80,10 @@ class Anuncio(db.Model):
     preco = db.Column('anu_preco', db.Float)
     cat_id = db.Column('cat_id', db.Integer, db.ForeignKey("categoria.cat_id"))
     usu_id = db.Column('usu_id', db.Integer, db.ForeignKey("usuario.usu_id"))
+
+    perguntas = db.relationship('Pergunta', backref='anuncio_pergunta', lazy=True)
+    favoritos = db.relationship('Favorito', backref='anuncio_favorito', lazy=True)
+    compras = db.relationship('Compra', backref='anuncio_compra', lazy=True)
 
     def __init__(self, nome, desc, qtd, preco, cat_id, usu_id):
         self.nome = nome
@@ -202,12 +213,23 @@ def salvar_usuario(id):
     db.session.commit()
     return redirect(url_for('lista_usuario'))
 
+
 @app.route('/cadastro/excluirusuario/<int:id>')
 @login_required
 def excluir_usuario(id):
     usuario = Usuario.query.get(id)
+    Pergunta.query.filter_by(usu_id=id).delete()
+    Favorito.query.filter_by(usu_id=id).delete()
+    Compra.query.filter_by(usu_id=id).delete()
+    
+    anuncios_usuario = Anuncio.query.filter_by(usu_id=id).all()
+    for anuncio in anuncios_usuario:
+        Pergunta.query.filter_by(anu_id=anuncio.id).delete()
+        Compra.query.filter_by(anu_id=anuncio.id).delete()
+        db.session.delete(anuncio)
     db.session.delete(usuario)
     db.session.commit()
+    flash('Usuário excluído com sucesso!', 'success')
     return redirect(url_for('lista_usuario'))
 
 # -- CRUD Categoria
@@ -242,12 +264,22 @@ def salvar_categoria(id):
     db.session.commit()
     return redirect(url_for('lista_categoria'))
 
+
 @app.route('/configuracoes/excluircategoria/<int:id>')
 @login_required
 def excluir_categoria(id):
     categoria = Categoria.query.get(id)
+    
+    anuncios_relacionados = Anuncio.query.filter_by(cat_id=id).all()
+    for anuncio in anuncios_relacionados:
+        Pergunta.query.filter_by(anu_id=anuncio.id).delete()
+        Compra.query.filter_by(anu_id=anuncio.id).delete()
+        Favorito.query.filter_by(anu_id=anuncio.id).delete()
+        db.session.delete(anuncio)
+    
     db.session.delete(categoria)
     db.session.commit()
+    flash('Categoria excluída com sucesso!', 'success')
     return redirect(url_for('lista_categoria'))
 
 # -- CRUD Anuncio
@@ -303,8 +335,13 @@ def salvar_anuncio(id):
 @login_required
 def excluir_anuncio(id):
     anuncio = Anuncio.query.get(id)
+    Pergunta.query.filter_by(anu_id=id).delete()
+    Compra.query.filter_by(anu_id=id).delete()
+    Favorito.query.filter_by(anu_id=id).delete()
+    
     db.session.delete(anuncio)
     db.session.commit()
+    flash('Anúncio excluído com sucesso!', 'success')
     return redirect(url_for('lista_anuncio'))
 
 # -- CRUD Pergunta
@@ -353,6 +390,7 @@ def excluir_pergunta(id):
     pergunta = Pergunta.query.get(id)
     db.session.delete(pergunta)
     db.session.commit()
+    flash('Pergunta excluída com sucesso!', 'success')
     return redirect(url_for('lista_pergunta'))
 
 # -- CRUD Favoritos
@@ -380,6 +418,7 @@ def excluir_favorito(id):
     favorito = Favorito.query.get(id)
     db.session.delete(favorito)
     db.session.commit()
+    flash('Favorito excluído com sucesso!', 'success')
     return redirect(url_for('lista_favoritos'))
 
 # -- CRUD Compra
@@ -430,6 +469,7 @@ def excluir_compra(id):
     compra = Compra.query.get(id)
     db.session.delete(compra)
     db.session.commit()
+    flash('Compra excluída com sucesso!', 'success')
     return redirect(url_for('lista_compra'))
 
 # Rotas de Relatórios

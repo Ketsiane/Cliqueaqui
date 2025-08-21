@@ -1,35 +1,31 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>Relatório de Vendas</h2>
-    <p>RELATÓRIO DE ITENS VENDIDOS:</p>
+    <h2 class="mb-4">Relatório de Vendas</h2>
+    <a href="{{ url_for('menu') }}" class="btn btn-secondary mb-4">Voltar ao Menu</a>
 
-    <table class="table table-bordered table-hover mt-3">
-        <thead>
-            <tr>
-                <th>ID da Venda</th>
-                <th>Anúncio Vendido</th>
-                <th>Comprador</th>
-                <th>Preço Unitário</th>
-                <th>Quantidade Vendida</th>
-                <th>Valor Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for venda, anuncio, usuario in vendas %}
-            <tr>
-                <td>{{ venda.id }}</td>
-                <td>{{ anuncio.nome }}</td>
-                <td>{{ usuario.nome }}</td>
-                <td>R$ {{ "%.2f"|format(venda.preco) }}</td>
-                <td>{{ venda.quantidade }}</td>
-                <td>R$ {{ "%.2f"|format(venda.total) }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <br>
-    <a href="{{ url_for('menu') }}" class="btn btn-primary">Voltar para a Tela Inicial</a>
-    
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID da Compra</th>
+                    <th>Anúncio</th>
+                    <th>Descrição</th>
+                    <th>Preço da Venda</th>
+                    <th>Vendedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for compra, anuncio, usuario in vendas %}
+                <tr>
+                    <td>{{ compra.id }}</td>
+                    <td>{{ anuncio.nome }}</td>
+                    <td>{{ anuncio.desc }}</td>
+                    <td>{{ compra.preco }}</td>
+                    <td>{{ usuario.nome }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

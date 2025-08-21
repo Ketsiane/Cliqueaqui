@@ -1,44 +1,81 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>Bem-vindo ao E-commerce Clique Aqui</h2>
+    <h2 class="mb-4">Menu Principal</h2>
+    <p>Bem-vindo, {{ current_user.nome }}!</p>
 
-    <nav>
-        <ul>
-            {% if current_user.is_authenticated %}
-            <li>
-                <h2>Cadastros</h2>
-                <ul>
-                    <li><a href="{{ url_for('lista_usuario') }}">Usuário</a></li>
-                    <li><a href="{{ url_for('lista_anuncio') }}">Anúncios</a></li>
-                </ul>
-            </li>
-            <li>
-                <h2>Anúncios</h2>
-                <ul>
-                    <li><a href="{{ url_for('lista_pergunta') }}">Pergunta</a></li>
-                    <li><a href="{{ url_for('lista_compra') }}">Compra</a></li>
-                    <li><a href="{{ url_for('lista_favoritos') }}">Favoritos</a></li>
-                </ul>
-            </li>
-            <li>
-                <h2>Configurações</h2>
-                <ul>
-                    <li><a href="{{ url_for('lista_categoria') }}">Categoria</a></li>
-                </ul>
-            </li>
-            <li>
-                <h2>Relatórios</h2>
-                <ul>
-                    <li><a href="{{ url_for('relatorio_vendas') }}">Vendas</a></li>
-                    <li><a href="{{ url_for('relatorio_compras') }}">Compras</a></li>
-                </ul>
-            </li>
-            <li><a href="{{ url_for('logout') }}">Sair</a></li>
-            {% else %}
-            <li><a href="{{ url_for('login') }}">Entrar</a></li>
-            <li><a href="{{ url_for('exibir_cadastro') }}">Cadastre-se</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Anúncios</h5>
+                    <p class="card-text">Gerencie seus anúncios, crie novos ou edite os existentes.</p>
+                    <a href="{{ url_for('lista_anuncio') }}" class="btn btn-primary">Gerenciar Anúncios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Categorias</h5>
+                    <p class="card-text">Visualize e configure as categorias de produtos.</p>
+                    <a href="{{ url_for('lista_categoria') }}" class="btn btn-primary">Gerenciar Categorias</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Compras</h5>
+                    <p class="card-text">Visualize suas compras ou faça uma nova.</p>
+                    <a href="{{ url_for('lista_compra') }}" class="btn btn-primary">Gerenciar Compras</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Usuários</h5>
+                    <p class="card-text">Gerencie a lista de usuários cadastrados.</p>
+                    <a href="{{ url_for('lista_usuario') }}" class="btn btn-primary">Gerenciar Usuários</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Perguntas</h5>
+                    <p class="card-text">Visualize e responda às perguntas sobre seus anúncios.</p>
+                    <a href="{{ url_for('lista_pergunta') }}" class="btn btn-primary">Gerenciar Perguntas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Favoritos</h5>
+                    <p class="card-text">Veja a lista de seus anúncios favoritos.</p>
+                    <a href="{{ url_for('lista_favoritos') }}" class="btn btn-primary">Meus Favoritos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Relatório de Vendas</h5>
+                    <p class="card-text">Gere relatórios de vendas por anúncio e usuário.</p>
+                    <a href="{{ url_for('relatorio_vendas') }}" class="btn btn-primary">Ver Relatório</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Relatório de Compras</h5>
+                    <p class="card-text">Gere relatórios de compras por anúncio e usuário.</p>
+                    <a href="{{ url_for('relatorio_compras') }}" class="btn btn-primary">Ver Relatório</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

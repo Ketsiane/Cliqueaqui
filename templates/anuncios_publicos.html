@@ -1,16 +1,23 @@
 {% extends "estrutura.html" %}
+
 {% block content %}
-    <h2>Anúncios</h2>
-    <section>
-        <h3>Confira todos os anúncios</h3>
+    <h2 class="mb-4">Anúncios Disponíveis</h2>
+    
+    <div class="row">
         {% for anuncio in anuncios %}
-        <div>
-            <h4>{{ anuncio.nome }}</h4>
-            <p>{{ anuncio.desc }}</p>
-            <p>Preço: R$ {{ anuncio.preco }}</p>
-            <p>Quantidade: {{ anuncio.qtd }}</p>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ anuncio.nome }}</h5>
+                    <p class="card-text">{{ anuncio.desc }}</p>
+                    <p class="card-text mt-auto">
+                        <strong class="text-success">Preço: R$ {{ anuncio.preco }}</strong><br>
+                        <small class="text-muted">Quantidade: {{ anuncio.qtd }}</small>
+                    </p>
+                </div>
+            </div>
         </div>
-        <hr>
         {% endfor %}
-    </section>
+    </div>
+
 {% endblock %}

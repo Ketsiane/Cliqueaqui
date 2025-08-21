@@ -1,22 +1,14 @@
 {% extends "estrutura.html" %}
+
 {% block content %}
-    <h2>Bem-vindo ao E-commerce Clique Aqui</h2>
-    <section>
-        <h3>Acesse sua conta ou cadastre-se</h3>
-        <p><a href="{{ url_for('login') }}">Entrar</a></p>
-        <p><a href="{{ url_for('exibir_cadastro') }}">Cadastre-se</a></p>
-    </section>
-    <hr>
-    <section>
-        <h3>Anúncios em Destaque</h3>
-        {% for anuncio in anuncios %}
-        <div>
-            <h4>{{ anuncio.nome }}</h4>
-            <p>{{ anuncio.desc }}</p>
-            <p>Preço: R$ {{ anuncio.preco }}</p>
-            <p>Quantidade disponível: {{ anuncio.qtd }}</p>
-        </div>
-        <hr>
-        {% endfor %}
-    </section>
+    <div class="text-center my-5">
+        <h1 class="display-4">Bem-vindo ao E-commerce Clique Aqui!</h1>
+        <p class="lead">O seu site para comprar e vender produtos online de forma rápida e segura.</p>
+        <hr class="my-4">
+        <p>Explore nossos anúncios públicos ou faça o login para gerenciar sua conta.</p>
+        <a href="{{ url_for('anuncios_publicos') }}" class="btn btn-primary btn-lg mt-3 me-2">Ver Anúncios Públicos</a>
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('login') }}" class="btn btn-secondary btn-lg mt-3">Login</a>
+        {% endif %}
+    </div>
 {% endblock %}

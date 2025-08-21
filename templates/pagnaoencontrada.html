@@ -1,6 +1,10 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h3 style="text-align: center;">Ops, página não encontrada!!!</h3>
-    <p style="text-align: center;">Vamos voltar para o <a href="{{ url_for('index') }}">início</a>?</p>
+    <div class="text-center my-5">
+        <h1 class="display-1">404</h1>
+        <h2 class="mb-3">Página Não Encontrada</h2>
+        <p class="lead">A página que você está procurando não existe ou foi movida.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Voltar para a Página Inicial</a>
+    </div>
 {% endblock %}

@@ -1,15 +1,18 @@
 {% extends "estrutura.html" %}
-
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    <form action="{{ url_for('salvar_categoria', id=categoria.id) }}" method="post">
-        <label for="nome">Nome da Categoria:</label>
-        <input type="text" id="nome" name="nome" value="{{ categoria.nome }}" required>
-        <br>
-        <label for="desc">Descrição:</label>
-        <input type="text" id="desc" name="desc" value="{{ categoria.desc }}" required>
-        <br>
-        <button type="submit">Salvar</button>
-    </form>
-    <a href="{{ url_for('lista_categoria') }}">Cancelar</a>
+    <h2 class="mb-4">Editar Categoria</h2>
+    <a href="{{ url_for('lista_categoria') }}" class="btn btn-secondary mb-4">Voltar para a Lista</a>
+
+    <div class="card p-4 shadow">
+        <h4 class="card-title mb-3">Editar Categoria #{{ categoria.id }}</h4>
+        <form action="{{ url_for('editar_categoria', id=categoria.id) }}" method="post">
+            <input type="hidden" name="id" value="{{ categoria.id }}">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" value="{{ categoria.nome }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a href="{{ url_for('excluir_categoria', id=categoria.id) }}" onclick="return confirm('Deseja realmente excluir esta categoria?');" class="btn btn-danger">Excluir Categoria</a>
+        </form>
+    </div>
 {% endblock %}

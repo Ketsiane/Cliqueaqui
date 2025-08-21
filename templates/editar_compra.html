@@ -1,29 +1,39 @@
 {% extends "estrutura.html" %}
 
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    <form action="{{ url_for('salvar_compra', id=compra.id) }}" method="post">
-        <label for="quantidade">Quantidade:</label>
-        <input type="number" id="quantidade" name="quantidade" value="{{ compra.quantidade }}" required>
-        <br>
-        <label for="preco">Preço:</label>
-        <input type="number" id="preco" name="preco" step="0.01" value="{{ compra.preco }}" required>
-        <br>
-        <label for="anu_id">Anúncio:</label>
-        <select id="anu_id" name="anu_id" required>
-            {% for anuncio in anuncios %}
-                <option value="{{ anuncio.id }}" {% if anuncio.id == compra.anu_id %}selected{% endif %}>{{ anuncio.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="usu_id">Usuário:</label>
-        <select id="usu_id" name="usu_id" required>
-            {% for usuario in usuarios %}
-                <option value="{{ usuario.id }}" {% if usuario.id == compra.usu_id %}selected{% endif %}>{{ usuario.nome }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Salvar</button>
-    </form>
-    <a href="{{ url_for('lista_compra') }}">Cancelar</a>
+    <h2 class="mb-4">Editar Compra</h2>
+    <a href="{{ url_for('lista_compra') }}" class="btn btn-secondary mb-4">Voltar para a Lista</a>
+
+    <div class="card p-4 shadow">
+        <h4 class="card-title mb-3">Editar Compra #{{ compra.id }}</h4>
+        <form action="{{ url_for('editar_compra', id=compra.id) }}" method="post">
+            <input type="hidden" name="id" value="{{ compra.id }}">
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" class="form-control" value="{{ compra.quantidade }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="preco" class="form-label">Preço:</label>
+                <input type="number" step="0.01" id="preco" name="preco" class="form-control" value="{{ compra.preco }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="anu_id" class="form-label">Anúncio:</label>
+                <select id="anu_id" name="anu_id" class="form-select" required>
+                    {% for anuncio in anuncios %}
+                    <option value="{{ anuncio.id }}" {% if anuncio.id == compra.anu_id %}selected{% endif %}>{{ anuncio.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="usu_id" class="form-label">Usuário:</label>
+                <select id="usu_id" name="usu_id" class="form-select" required>
+                    {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}" {% if usuario.id == compra.usu_id %}selected{% endif %}>{{ usuario.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a href="{{ url_for('excluir_compra', id=compra.id) }}" onclick="return confirm('Deseja realmente excluir esta compra?');" class="btn btn-danger">Excluir Compra</a>
+        </form>
+    </div>
 {% endblock %}

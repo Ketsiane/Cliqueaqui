@@ -1,21 +1,31 @@
-{% extends "estrutura.html" %}
-
+{% extends 'estrutura.html' %}
 {% block content %}
-    <h2>{{ titulo }}</h2>
-    <form action="{{ url_for('salvar_usuario', id=usuario.id) }}" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="{{ usuario.nome }}" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
-        <br>
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" value="{{ usuario.senha }}" required>
-        <br>
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco" value="{{ usuario.endereco }}" required>
-        <br>
-        <button type="submit">Salvar</button>
-    </form>
-    <a href="{{ url_for('lista_usuario') }}">Cancelar</a>
+    <h2 class="mb-4">Editar Usuário</h2>
+    <a href="{{ url_for('lista_usuario') }}" class="btn btn-secondary mb-4">Voltar para a Lista</a>
+
+    <div class="card p-4 shadow">
+        <h4 class="card-title mb-3">Editar Usuário #{{ usuario.id }}</h4>
+        <form action="{{ url_for('editar_usuario', id=usuario.id) }}" method="post">
+            <input type="hidden" name="id" value="{{ usuario.id }}">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" value="{{ usuario.nome }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ usuario.email }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha:</label>
+                <input type="password" id="senha" name="senha" class="form-control">
+                <small class="form-text text-muted">Deixe em branco para não alterar a senha.</small>
+            </div>
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" class="form-control" value="{{ usuario.endereco }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <a href="{{ url_for('excluir_usuario', id=usuario.id) }}" onclick="return confirm('Deseja realmente excluir este usuário?');" class="btn btn-danger">Excluir Usuário</a>
+        </form>
+    </div>
 {% endblock %}

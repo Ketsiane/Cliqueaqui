@@ -1,24 +1,29 @@
 {% extends 'estrutura.html' %}
 {% block content %}
-    <h4>Login</h4>
+    <div class="row justify-content-center my-5">
+        <div class="col-md-6">
+            <div class="card p-4 shadow">
+                <h4 class="card-title text-center mb-4">Login</h4>
+                <form action="{{ url_for('login') }}" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" id="email" name="email" class="form-control" required>
+                    </div>
 
-    <form action="{{ url_for('login') }}" method="post">
-        <p>
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email">
-        </p>
+                    <div class="mb-3"> 
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" id="senha" name="senha" class="form-control" required>
+                    </div> 
 
-        <p> 
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha">
-        </p> 
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="submit" class="btn btn-primary">Logar</button>
+                        <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
+                    </div>
+                </form>
 
-        <p>
-             <input type="submit" value="Logar">
-             <input type="reset" value="Limpar Formulário">
-            </p>
-    </form>
-
- <p>Não tem uma conta? <a href="{{ url_for('exibir_cadastro') }}">Cadastre-se agora!</a></p>
-    <p><a href="{{ url_for('index') }}">Voltar à página inicial</a></p>
+                <p class="text-center mt-3">Não tem uma conta? <a href="{{ url_for('exibir_cadastro') }}">Cadastre-se agora!</a></p>
+                <p class="text-center"><a href="{{ url_for('index') }}">Voltar à página inicial</a></p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
