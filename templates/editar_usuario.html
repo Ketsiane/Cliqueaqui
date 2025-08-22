@@ -1,11 +1,12 @@
 {% extends 'estrutura.html' %}
+
 {% block content %}
     <h2 class="mb-4">Editar Usuário</h2>
     <a href="{{ url_for('lista_usuario') }}" class="btn btn-secondary mb-4">Voltar para a Lista</a>
 
     <div class="card p-4 shadow">
         <h4 class="card-title mb-3">Editar Usuário #{{ usuario.id }}</h4>
-        <form action="{{ url_for('editar_usuario', id=usuario.id) }}" method="post">
+        <form action="{{ url_for('salvar_usuario', id=usuario.id) }}" method="post">
             <input type="hidden" name="id" value="{{ usuario.id }}">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome:</label>

@@ -5,15 +5,15 @@
 
     <div class="card p-4 shadow">
         <h4 class="card-title mb-3">Editar Pergunta #{{ pergunta.id }}</h4>
-        <form action="{{ url_for('editar_pergunta', id=pergunta.id) }}" method="post">
+        <form action="{{ url_for('salvar_pergunta', id=pergunta.id) }}" method="post">
             <input type="hidden" name="id" value="{{ pergunta.id }}">
             <div class="mb-3">
-                <label for="desc" class="form-label">Pergunta:</label>
-                <textarea id="desc" name="desc" class="form-control" required>{{ pergunta.desc }}</textarea>
+                <label for="pergunta_texto" class="form-label">Pergunta:</label>
+                <textarea id="pergunta_texto" name="pergunta_texto" class="form-control" required>{{ pergunta.pergunta_texto }}</textarea>
             </div>
             <div class="mb-3">
-                <label for="resp" class="form-label">Resposta:</label>
-                <textarea id="resp" name="resp" class="form-control">{{ pergunta.resp }}</textarea>
+                <label for="resposta_texto" class="form-label">Resposta:</label>
+                <textarea id="resposta_texto" name="resposta_texto" class="form-control">{{ pergunta.resposta_texto }}</textarea>
             </div>
             <div class="mb-3">
                 <label for="anu_id" class="form-label">Anúncio:</label>
